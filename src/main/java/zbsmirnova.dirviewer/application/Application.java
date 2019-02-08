@@ -5,8 +5,10 @@ import static zbsmirnova.dirviewer.application.Util.getFileType;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.File;
 import java.util.List;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -78,6 +80,7 @@ public class Application extends JPanel {
 
 
       fileView = new JLabel();
+      //filePanel =  new JPanel(new BorderLayout(3, 3));
       filePanel =  new JPanel(new BorderLayout(3, 3));
       filePanel.setBorder(new EmptyBorder(0,11,0,3));
       filePanel.add(fileView);
@@ -93,6 +96,8 @@ public class Application extends JPanel {
           FILE_VIEW_WIDTH,
           APPLICATION_HEIGHT);
       filePanel.setMinimumSize(fileMinWide);
+      filePanel.setLayout(new BorderLayout());
+
 
       gui.add(treeScroll, BorderLayout.WEST);
       gui.add(filePanel, BorderLayout.CENTER);
@@ -137,7 +142,16 @@ public class Application extends JPanel {
 
   private void previewFile(File file){
     if (getFileType(file.getName()) == FileType.PICTURE){
-      fileView = new ImageLoader(file);
+      //fileView.remove(0);
+      ImageLoader loader = new ImageLoader(file);
+      //loader.repaint();
+      JCheckBox resizeImageCheckbox = new JCheckBox("resize the picture");
+        resizeImageCheckbox.addActionListener(event -> {
+          JCheckBox cb = (JCheckBox) event.getSource();
+          loader.isScaled = cb.isSelected();
+          loader.repaint(); });
+      filePanel.add(resizeImageCheckbox, BorderLayout.SOUTH);
+      fileView = loader;
     }
     else if (getFileType(file.getName()) == FileType.TEXT){
       TextLoader loader = new TextLoader(file);
