@@ -4,32 +4,19 @@ import static zbsmirnova.dirviewer.application.Application.APPLICATION_HEIGHT;
 import static zbsmirnova.dirviewer.application.Application.FILE_VIEW_WIDTH;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 public class ImageLoader extends JComponent {
   private BufferedImage img;
-
-  public void paint(Graphics g) {
-    int height = img.getHeight();
-    int width = img.getWidth();
-    double k = 1.0;
-
-    if(height > width && height > APPLICATION_HEIGHT){
-      k = (double) height/(APPLICATION_HEIGHT-20);
-    }
-    else if(width > height && width > FILE_VIEW_WIDTH){
-      k = (double) width/(FILE_VIEW_WIDTH-20);
-    }
-
-    height = (int) (height / k);
-    width = (int)(width/k);
-
-    g.drawImage(img.getScaledInstance(width, height,2), 0, 0, null);
-  }
 
   ImageLoader(File file) {
     try {
@@ -38,6 +25,26 @@ public class ImageLoader extends JComponent {
     catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void paint(Graphics g){
+    int w = getWidth();
+    int h = getHeight();
+    int imageWidth = img.getWidth();
+    int imageHeight = img.getHeight();
+    double scale = getScale(w, h, imageWidth, imageHeight);
+    int scaledWidth = (int)(imageWidth * scale);
+    int scaledHeight = (int)(imageHeight * scale);
+    double x = (w - scale * imageWidth) / 2;
+    double y = (h - scale * imageHeight) / 2;
+    g.drawImage(img.getScaledInstance(scaledWidth, scaledHeight, 2), (int)x, (int)y, null);
+  }
+
+  private double getScale(int w, int h, int imgWidth, int imgHeight){
+    double wScale = (double) w/imgWidth;
+    double hScale = (double) h/imgHeight;
+    return Double.min(wScale, hScale);
   }
 }
 
