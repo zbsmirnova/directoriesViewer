@@ -14,9 +14,11 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 public class Application extends JPanel {
+
   private static final int APPLICATION_WIDTH = 1070;
-  static final int APPLICATION_HEIGHT = 600;
-  static final int FILE_VIEW_WIDTH = 700;
+  private static final int APPLICATION_HEIGHT = 600;
+  private static final int FILE_VIEW_WIDTH = 700;
+  private static final int TREE_WIDTH = 350;
 
   private JComponent fileView;
   private JPanel filePanel;
@@ -24,6 +26,7 @@ public class Application extends JPanel {
 
   private Container getGui(){
     if (gui==null) {
+
       TreeLoader treeLoader = new TreeLoader(this);
 
       gui = new JPanel(new BorderLayout(3, 3));
@@ -32,7 +35,7 @@ public class Application extends JPanel {
       JScrollPane treeScroll = new JScrollPane(treeLoader.getTree());
       Dimension treePreferredSize = treeScroll.getPreferredSize();
       Dimension treePreferredWide = new Dimension(
-          350,
+           TREE_WIDTH,
           (int) treePreferredSize.getHeight());
       treeScroll.setPreferredSize(treePreferredWide);
 
@@ -48,8 +51,8 @@ public class Application extends JPanel {
 
       gui.add(treeScroll, BorderLayout.WEST);
       gui.add(filePanel, BorderLayout.CENTER);
-
     }
+
     return gui;
   }
 

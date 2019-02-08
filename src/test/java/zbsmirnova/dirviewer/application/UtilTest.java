@@ -9,6 +9,7 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class UtilTest {
+
   private static final String TEXT_FILE = "textFile.txt";
   private static final String JPG_FILE = "pictureFile.jpg";
   private static final String PNG_FILE = "pictureFile.png";

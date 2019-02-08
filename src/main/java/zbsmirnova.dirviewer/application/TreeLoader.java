@@ -1,7 +1,5 @@
 package zbsmirnova.dirviewer.application;
 
-import static zbsmirnova.dirviewer.application.Util.getFileType;
-
 import java.io.File;
 import java.util.List;
 import javax.swing.JTree;
@@ -12,7 +10,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 class TreeLoader {
-  private Application application;
+
+  private final Application application;
   private FileSystemView fileSystemView;
   private JTree tree;
 
@@ -90,6 +89,4 @@ class TreeLoader {
     };
     worker.execute();
   }
-
-
 }

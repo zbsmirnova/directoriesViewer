@@ -16,6 +16,7 @@ import javax.swing.SwingWorker;
 
 
 class TextLoader {
+
   private final File file;
 
   TextLoader(File file){
