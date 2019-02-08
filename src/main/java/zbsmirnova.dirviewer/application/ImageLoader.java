@@ -36,7 +36,7 @@ public class ImageLoader extends JComponent {
       img = ImageIO.read(file);
     }
     catch (IOException e) {
-      System.out.println(e.getMessage());//??????
+      e.printStackTrace();
     }
   }
 }

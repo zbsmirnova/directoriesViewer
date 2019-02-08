@@ -3,12 +3,14 @@ package zbsmirnova.dirviewer.application;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListModel;
 import javax.swing.SwingWorker;
 
@@ -27,11 +29,10 @@ class TextLoader {
     private TextWorker(File file, DefaultListModel<String> model) {
       this.file = file;
       this.model = model;
-      //model.setColumnIdentifiers(new Object[]{file.getAbsolutePath()});
     }
 
     @Override
-    protected ListModel<String> doInBackground() throws Exception {
+    protected ListModel<String> doInBackground() {
       try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),
           StandardCharsets.UTF_8))) {
         String s;
@@ -39,21 +40,16 @@ class TextLoader {
           publish(s);
         }
       }
+      catch (IOException e){
+        e.printStackTrace();
+      }
       return model;
     }
 
     @Override
     protected void process(List<String> chunks) {
       for (String s : chunks) {
-//        if(s.length() < FILE_VIEW_WIDTH){
           model.add(0, s);
-//        }
-//        else{
-//          String s1 = s.substring(0, FILE_VIEW_WIDTH);
-//          String s2 = s.substring(FILE_VIEW_WIDTH);
-//          model.addRow(new Object[]{s1});
-//          model.addRow(new Object[]{s2});
-//        }
       }
     }
   }
@@ -63,9 +59,8 @@ class TextLoader {
     JList<String> list = new JList<>(model);
     list.setModel(model);
     list.setEnabled(true);
-    //list.setShowGrid(false);
     TextWorker worker = new TextWorker(file, model);
     worker.execute();
-    return list;
+    return new JScrollPane(list);
   }
 }
