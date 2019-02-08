@@ -5,7 +5,6 @@ import static zbsmirnova.dirviewer.application.Util.getFileType;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.io.File;
 import java.util.List;
 import javax.swing.JComponent;
@@ -36,7 +35,7 @@ public class Application extends JPanel {
     if (gui==null) {
       gui = new JPanel(new BorderLayout(3, 3));
       gui.setBorder(new EmptyBorder(5, 5, 5, 5));
-      gui.setLayout(new BorderLayout());
+      //gui.setLayout(new BorderLayout());
 
       fileSystemView = FileSystemView.getFileSystemView();
 
@@ -89,7 +88,7 @@ public class Application extends JPanel {
 //          (int) filePreferredSize.getHeight());
 //      filePanel.setPreferredSize(filePreferredWide);
 
-      Dimension fileMinSize = filePanel.getMinimumSize();
+      //Dimension fileMinSize = filePanel.getMinimumSize();
       Dimension fileMinWide = new Dimension(
           FILE_VIEW_WIDTH,
           APPLICATION_HEIGHT);

@@ -25,7 +25,7 @@ public class ImageLoader extends JComponent {
       k = (double) width/(FILE_VIEW_WIDTH-20);
     }
 
-    height = (int)(height/k);
+    height = (int) (height / k);
     width = (int)(width/k);
 
     g.drawImage(img.getScaledInstance(width, height,2), 0, 0, null);
