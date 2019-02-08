@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 public class Application extends JPanel {
@@ -24,8 +26,8 @@ public class Application extends JPanel {
   private JPanel filePanel;
   private JPanel gui;
 
-  private Container getGui(){
-    if (gui==null) {
+  private Container getGui() {
+    if (gui == null) {
 
       TreeLoader treeLoader = new TreeLoader(this);
 
@@ -35,13 +37,13 @@ public class Application extends JPanel {
       JScrollPane treeScroll = new JScrollPane(treeLoader.getTree());
       Dimension treePreferredSize = treeScroll.getPreferredSize();
       Dimension treePreferredWide = new Dimension(
-           TREE_WIDTH,
+          TREE_WIDTH,
           (int) treePreferredSize.getHeight());
       treeScroll.setPreferredSize(treePreferredWide);
 
       fileView = new JLabel();
-      filePanel =  new JPanel(new BorderLayout(3, 3));
-      filePanel.setBorder(new EmptyBorder(0,11,0,3));
+      filePanel = new JPanel(new BorderLayout(3, 3));
+      filePanel.setBorder(new EmptyBorder(0, 11, 0, 3));
       filePanel.add(fileView);
 
       Dimension fileMinWide = new Dimension(
@@ -56,11 +58,10 @@ public class Application extends JPanel {
     return gui;
   }
 
-  void previewFile(File file){
-    if (getFileType(file.getName()) == FileType.PICTURE){
+  void previewFile(File file) {
+    if (getFileType(file.getName()) == FileType.PICTURE) {
       fileView = new ImageLoader(file);
-    }
-    else if (getFileType(file.getName()) == FileType.TEXT){
+    } else if (getFileType(file.getName()) == FileType.TEXT) {
       TextLoader loader = new TextLoader(file);
       fileView = loader.display();
     }
@@ -70,14 +71,22 @@ public class Application extends JPanel {
   }
 
   public static void main(String[] args) {
-    Application app = new Application();
-    JFrame f = new JFrame("Application");
-    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    f.setContentPane(app.getGui());
-    f.pack();
-    f.setLocationByPlatform(true);
-    f.setSize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
-    f.setMinimumSize(f.getSize());
-    f.setVisible(true);
+    SwingUtilities.invokeLater(() -> {
+      try {
+        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+      }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+      Application app = new Application();
+      JFrame f = new JFrame("Application");
+      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      f.setContentPane(app.getGui());
+      f.pack();
+      f.setLocationByPlatform(true);
+      f.setSize(APPLICATION_WIDTH, APPLICATION_HEIGHT);
+      f.setMinimumSize(f.getSize());
+      f.setVisible(true);
+    });
   }
 }
