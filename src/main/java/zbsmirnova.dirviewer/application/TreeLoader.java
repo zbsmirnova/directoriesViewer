@@ -33,7 +33,7 @@ class TreeLoader {
       if (file.isDirectory())
         showChildren(node);
       else
-        previewFile(file);
+        application.previewFile(file);
     };
 
     File[] roots = fileSystemView.getRoots();
@@ -91,16 +91,5 @@ class TreeLoader {
     worker.execute();
   }
 
-  private void previewFile(File file){
-    if (getFileType(file.getName()) == FileType.PICTURE){
-      application.fileView = new ImageLoader(file);
-    }
-    else if (getFileType(file.getName()) == FileType.TEXT){
-      TextLoader loader = new TextLoader(file);
-      application.fileView = loader.display();
-    }
-    application.filePanel.remove(0);
-    application.filePanel.add(application.fileView);
-    application.gui.updateUI();
-  }
+
 }

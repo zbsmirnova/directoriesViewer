@@ -1,8 +1,11 @@
 package zbsmirnova.dirviewer.application;
 
+import static zbsmirnova.dirviewer.application.Util.getFileType;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.File;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,9 +18,9 @@ public class Application extends JPanel {
   static final int APPLICATION_HEIGHT = 600;
   static final int FILE_VIEW_WIDTH = 700;
 
-  JComponent fileView;
-  JPanel filePanel;
-  JPanel gui;
+  private JComponent fileView;
+  private JPanel filePanel;
+  private JPanel gui;
 
   private Container getGui(){
     if (gui==null) {
@@ -50,6 +53,18 @@ public class Application extends JPanel {
     return gui;
   }
 
+  void previewFile(File file){
+    if (getFileType(file.getName()) == FileType.PICTURE){
+      fileView = new ImageLoader(file);
+    }
+    else if (getFileType(file.getName()) == FileType.TEXT){
+      TextLoader loader = new TextLoader(file);
+      fileView = loader.display();
+    }
+    filePanel.remove(0);
+    filePanel.add(fileView);
+    gui.updateUI();
+  }
 
   public static void main(String[] args) {
     Application app = new Application();
