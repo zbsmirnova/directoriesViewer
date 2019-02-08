@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-public class Application extends JPanel {
+public class Application{
 
   private static final int APPLICATION_WIDTH = 1070;
   private static final int APPLICATION_HEIGHT = 600;
@@ -26,7 +26,7 @@ public class Application extends JPanel {
   private JPanel filePanel;
   private JPanel gui;
 
-  private Container getGui() {
+  private JPanel getGui() {
     if (gui == null) {
 
       TreeLoader treeLoader = new TreeLoader(this);
