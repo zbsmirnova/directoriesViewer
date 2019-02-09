@@ -1,9 +1,6 @@
 package zbsmirnova.dirviewer.application;
 
-import static zbsmirnova.dirviewer.application.Util.getFileType;
-
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.io.File;
 import javax.swing.JComponent;
@@ -59,9 +56,9 @@ public class Application{
   }
 
   void previewFile(File file) {
-    if (getFileType(file.getName()) == FileType.PICTURE) {
+    if (Util.getFileType(file.getName()) == FileType.PICTURE) {
       fileView = new ImageLoader(file);
-    } else if (getFileType(file.getName()) == FileType.TEXT) {
+    } else if (Util.getFileType(file.getName()) == FileType.TEXT) {
       TextLoader loader = new TextLoader(file);
       fileView = loader.display();
     }
