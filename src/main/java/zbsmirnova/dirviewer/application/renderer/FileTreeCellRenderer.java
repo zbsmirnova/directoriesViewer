@@ -11,12 +11,12 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 /**
  * Custom TreeCellRenderer.
  * */
-class FileTreeCellRenderer extends DefaultTreeCellRenderer {
+public class FileTreeCellRenderer extends DefaultTreeCellRenderer {
 
   private FileSystemView fileSystemView;
   private JLabel label;
 
-  FileTreeCellRenderer() {
+  public FileTreeCellRenderer() {
     label = new JLabel();
     label.setOpaque(true);
     fileSystemView = FileSystemView.getFileSystemView();

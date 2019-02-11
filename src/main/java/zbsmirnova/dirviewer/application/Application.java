@@ -5,10 +5,12 @@ import static zbsmirnova.dirviewer.application.Util.getRenderer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -25,6 +27,7 @@ public class Application{
   private JComponent fileView;
   private JPanel filePanel;
   private JPanel gui;
+  private JProgressBar progressBar;
 
   private JPanel getGui() {
     if (gui == null) {
@@ -41,10 +44,18 @@ public class Application{
           (int) treePreferredSize.getHeight());
       treeScroll.setPreferredSize(treePreferredWide);
 
+
       fileView = new JLabel();
       filePanel = new JPanel(new BorderLayout(3, 3));
       filePanel.setBorder(new EmptyBorder(0, 11, 0, 3));
       filePanel.add(fileView);
+
+      progressBar = new JProgressBar();
+      progressBar.setVisible(false);
+      progressBar.setMinimum(0);
+      progressBar.setMaximum(100);
+      filePanel.add(progressBar, BorderLayout.NORTH);
+      progressBar.setVisible(false);
 
       Dimension fileMinWide = new Dimension(
           FILE_VIEW_WIDTH,
@@ -60,11 +71,18 @@ public class Application{
 
   void previewFile(File file) {
     Renderer renderer = getRenderer(file.getName());
-    AsynchronousLoader worker = new AsynchronousLoader(file);
+    filePanel.remove(fileView);
+    AsynchronousLoader worker = new AsynchronousLoader(file, progressBar);
     worker.execute();
-    byte[] byteArray = worker.doInBackground();
-    fileView = renderer.render(byteArray);
-    filePanel.remove(0);
+    byte[] byteArray;
+    try {
+      byteArray = worker.doInBackground();
+      fileView = renderer.render(byteArray);
+    } catch (IOException e) {
+      e.printStackTrace();
+      fileView = new JLabel("Error reading file " + file.getName());
+    }
+
     filePanel.add(fileView, BorderLayout.CENTER);
     gui.updateUI();
   }

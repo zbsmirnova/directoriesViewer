@@ -2,6 +2,7 @@ package zbsmirnova.dirviewer.application.renderer;
 
 import java.io.IOException;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import zbsmirnova.dirviewer.application.ImageComponent;
 
 
@@ -11,9 +12,9 @@ public class ImageRenderer implements Renderer {
   public JComponent render(byte [] byteArray) {
     try {
       return new ImageComponent(byteArray);
-    } catch (IOException e) {
+    } catch (IOException | NullPointerException e) {
       e.printStackTrace();
-      return new UnknownFileRenderer().render(byteArray);
+      return new JLabel("Image rendering error");
     }
   }
 }

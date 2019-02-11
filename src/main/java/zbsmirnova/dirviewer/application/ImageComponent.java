@@ -3,7 +3,6 @@ package zbsmirnova.dirviewer.application;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -12,7 +11,7 @@ public class ImageComponent extends JComponent {
 
   private BufferedImage img;
 
-  public ImageComponent(byte[] byteArray) throws IOException{
+  public ImageComponent(byte[] byteArray) throws IOException, NullPointerException{
         ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
         img = ImageIO.read(bais);
   }
