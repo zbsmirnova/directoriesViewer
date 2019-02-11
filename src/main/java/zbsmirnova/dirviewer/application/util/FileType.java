@@ -1,4 +1,4 @@
-package zbsmirnova.dirviewer.application;
+package zbsmirnova.dirviewer.application.util;
 
 public enum FileType {
   TEXT,

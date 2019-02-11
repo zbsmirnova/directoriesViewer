@@ -1,7 +1,7 @@
 package zbsmirnova.dirviewer.application;
 
-import static zbsmirnova.dirviewer.application.Util.getFileType;
-import static zbsmirnova.dirviewer.application.Util.getListModel;
+import static zbsmirnova.dirviewer.application.util.Util.getFileType;
+import static zbsmirnova.dirviewer.application.util.Util.getListModel;
 
 import javax.swing.DefaultListModel;
 import org.junit.Assert;
@@ -9,6 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import zbsmirnova.dirviewer.application.util.FileType;
 
 @RunWith(JUnit4.class)
 public class UtilTest {
@@ -52,7 +53,7 @@ public class UtilTest {
 
   @Test
   public void getFileTypeTest(){
-    Assert.assertEquals(getFileType(TXT_FILE),FileType.TEXT);
+    Assert.assertEquals(getFileType(TXT_FILE), FileType.TEXT);
     Assert.assertEquals(getFileType(JAVA_FILE),FileType.TEXT);
     Assert.assertEquals(getFileType(XML_FILE),FileType.TEXT);
     Assert.assertEquals(getFileType(IML_FILE),FileType.TEXT);

@@ -1,6 +1,6 @@
 package zbsmirnova.dirviewer.application;
 
-import static zbsmirnova.dirviewer.application.Util.getRenderer;
+import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,6 +16,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
+import zbsmirnova.dirviewer.application.util.ErrorComponent;
+
+/**
+ * Application allows to walk through system directories and files (lazy loading).
+ * Application supports file preview for text (files with extension .txt, .iml, .java, .xml,
+ * .TXT, .log) and images (files with extension .jpg and .png).
+ * Image and text loading executes out of Event Dispatch Thread
+ */
 
 public class Application{
 
@@ -80,9 +88,8 @@ public class Application{
       fileView = renderer.render(byteArray);
     } catch (IOException e) {
       e.printStackTrace();
-      fileView = new JLabel("Error reading file " + file.getName());
+      fileView = new ErrorComponent("Error loading file " + file.getName());
     }
-
     filePanel.add(fileView, BorderLayout.CENTER);
     gui.updateUI();
   }

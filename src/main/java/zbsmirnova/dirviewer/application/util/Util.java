@@ -1,4 +1,4 @@
-package zbsmirnova.dirviewer.application;
+package zbsmirnova.dirviewer.application.util;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +8,7 @@ import zbsmirnova.dirviewer.application.renderer.ImageRenderer;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
 import zbsmirnova.dirviewer.application.renderer.TextRenderer;
 import zbsmirnova.dirviewer.application.renderer.UnknownFileRenderer;
+import zbsmirnova.dirviewer.application.util.FileType;
 
 public class Util {
 
@@ -19,7 +20,7 @@ public class Util {
     textFileExtensions.addAll(Arrays.asList(extensions));
   }
 
-  static FileType getFileType(String fileName){
+  public static FileType getFileType(String fileName){
     String fileExtension3 = fileName.substring(fileName.length() - 3);
     String fileExtension4 = fileName.substring(fileName.length() - 4);
     if(textFileExtensions.contains(fileExtension3) || textFileExtensions.contains(fileExtension4))
@@ -29,7 +30,7 @@ public class Util {
     else return FileType.UNKNOWN;
   }
 
-  static Renderer getRenderer(String fileName){
+  public static Renderer getRenderer(String fileName){
     Renderer renderer;
     switch(getFileType(fileName)){
       case TEXT:
