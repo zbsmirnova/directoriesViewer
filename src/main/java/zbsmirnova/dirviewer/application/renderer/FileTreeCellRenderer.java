@@ -1,4 +1,4 @@
-package zbsmirnova.dirviewer.application;
+package zbsmirnova.dirviewer.application.renderer;
 
 import java.awt.Component;
 import java.io.File;

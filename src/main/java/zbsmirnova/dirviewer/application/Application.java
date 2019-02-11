@@ -1,5 +1,7 @@
 package zbsmirnova.dirviewer.application;
 
+import static zbsmirnova.dirviewer.application.Util.getRenderer;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
@@ -11,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import zbsmirnova.dirviewer.application.renderer.Renderer;
 
 public class Application{
 
@@ -56,14 +59,13 @@ public class Application{
   }
 
   void previewFile(File file) {
-    if (Util.getFileType(file.getName()) == FileType.PICTURE) {
-      fileView = new ImageLoader(file);
-    } else if (Util.getFileType(file.getName()) == FileType.TEXT) {
-      TextLoader loader = new TextLoader(file);
-      fileView = loader.display();
-    }
+    Renderer renderer = getRenderer(file.getName());
+    AsynchronousLoader worker = new AsynchronousLoader(file);
+    worker.execute();
+    byte[] byteArray = worker.doInBackground();
+    fileView = renderer.render(byteArray);
     filePanel.remove(0);
-    filePanel.add(fileView);
+    filePanel.add(fileView, BorderLayout.CENTER);
     gui.updateUI();
   }
 

@@ -8,6 +8,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import zbsmirnova.dirviewer.application.renderer.FileTreeCellRenderer;
 
 class TreeLoader {
 
@@ -40,6 +41,7 @@ class TreeLoader {
       DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
       root.add(node);
       File[] files = fileSystemView.getFiles(fileSystemRoot, true);
+      //Arrays.sort(files, Comparator.comparing(File::getName));
       for (File file : files) {
         if (file.isDirectory() | file.isFile()) {
           node.add(new DefaultMutableTreeNode(file));

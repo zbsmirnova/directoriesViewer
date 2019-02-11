@@ -2,22 +2,19 @@ package zbsmirnova.dirviewer.application;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
-public class ImageLoader extends JComponent {
+public class ImageComponent extends JComponent {
 
   private BufferedImage img;
 
-  ImageLoader(File file) {
-    try {
-      img = ImageIO.read(file);
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-    }
+  public ImageComponent(byte[] byteArray) throws IOException{
+        ByteArrayInputStream bais = new ByteArrayInputStream(byteArray);
+        img = ImageIO.read(bais);
   }
 
   @Override
