@@ -54,7 +54,7 @@ public class Application{
       progressBar.setVisible(false);
       progressBar.setMinimum(0);
       progressBar.setMaximum(100);
-      filePanel.add(progressBar, BorderLayout.NORTH);
+      filePanel.add(progressBar, BorderLayout.SOUTH);
       progressBar.setVisible(false);
 
       Dimension fileMinWide = new Dimension(

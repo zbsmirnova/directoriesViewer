@@ -1,6 +1,8 @@
 package zbsmirnova.dirviewer.application;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
@@ -38,16 +40,17 @@ class TreeLoader {
     };
 
     File[] roots = fileSystemView.getRoots();
+//    Arrays.sort(roots, Comparator.comparing(File::getName));
     for (File fileSystemRoot : roots) {
       DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
       root.add(node);
       File[] files = fileSystemView.getFiles(fileSystemRoot, true);
-      //Arrays.sort(files, Comparator.comparing(File::getName));
       for (File file : files) {
         if (file.isDirectory() | file.isFile()) {
           node.add(new DefaultMutableTreeNode(file));
         }
       }
+
     }
 
     tree = new JTree(treeModel);
@@ -69,6 +72,7 @@ class TreeLoader {
         File file = (File) node.getUserObject();
         if (file.isDirectory()) {
           File[] files = fileSystemView.getFiles(file, false);
+          Arrays.sort(files, Comparator.comparing(File::getName));
           if (node.isLeaf()) {
             for (File child : files) {
               publish(child);
@@ -80,6 +84,7 @@ class TreeLoader {
 
       @Override
       protected void process(List<File> chunks) {
+        chunks.sort(Comparator.comparing(File::getName));
         for (File file : chunks) {
           node.add(new DefaultMutableTreeNode(file));
         }

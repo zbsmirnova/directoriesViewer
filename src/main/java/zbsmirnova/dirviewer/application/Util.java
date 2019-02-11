@@ -1,5 +1,8 @@
 package zbsmirnova.dirviewer.application;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.DefaultListModel;
 import zbsmirnova.dirviewer.application.renderer.ImageRenderer;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
@@ -8,9 +11,20 @@ import zbsmirnova.dirviewer.application.renderer.UnknownFileRenderer;
 
 public class Util {
 
+  private static Set<String> textFileExtensions;
+
+  static {
+    textFileExtensions = new HashSet<>();
+    String[] extensions = {"txt", "iml", "java", "xml", "TXT", "log"};
+    textFileExtensions.addAll(Arrays.asList(extensions));
+  }
+
   static FileType getFileType(String fileName){
-    if(fileName.endsWith(".txt") | fileName.endsWith(".TXT")) return FileType.TEXT;
-    else if(fileName.endsWith(".jpg") | fileName.endsWith(".png"))
+    String fileExtension3 = fileName.substring(fileName.length() - 3);
+    String fileExtension4 = fileName.substring(fileName.length() - 4);
+    if(textFileExtensions.contains(fileExtension3) || textFileExtensions.contains(fileExtension4))
+      return FileType.TEXT;
+    else if(fileExtension3.equals("jpg") || fileExtension3.equals("png"))
       return FileType.PICTURE;
     else return FileType.UNKNOWN;
   }
