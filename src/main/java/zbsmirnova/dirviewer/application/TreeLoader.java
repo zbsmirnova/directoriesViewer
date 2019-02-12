@@ -49,7 +49,6 @@ class TreeLoader {
           node.add(new DefaultMutableTreeNode(file));
         }
       }
-
     }
 
     tree = new JTree(treeModel);
