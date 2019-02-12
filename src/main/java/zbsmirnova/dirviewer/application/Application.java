@@ -23,9 +23,9 @@ import zbsmirnova.dirviewer.application.util.TooLargeFileException;
  * Application allows to walk through system directories and files (lazy loading).
  * Application supports file preview for text (files with extension .txt, .iml, .java, .xml,
  * .TXT, .log) and images (files with extension .jpg and .png).
- * Supported text coding - UTF8.
+ * Supported text encoding - UTF8.
  * File size should not be larger then 2 gb.
- * Image and text loading executes out of Event Dispatch Thread
+ * Image and text loading executes out of Event Dispatch Thread.
  */
 
 public class Application{

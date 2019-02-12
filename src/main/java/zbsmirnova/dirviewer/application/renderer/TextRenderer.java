@@ -16,6 +16,8 @@ public class TextRenderer implements Renderer {
       return new ErrorComponent("Text rendering error");
     }
     DefaultListModel<String> model = getListModel(byteArray);
+    //https://stackoverflow.com/questions/25048674/how-to-read-and-display-large-text-files-in-swing
+    //JList or JTable are highly optimised for displaying large quantities of data
     JList<String> list = new JList<>();
     list.setModel(model);
     list.setEnabled(true);
