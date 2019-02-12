@@ -5,6 +5,7 @@ import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -84,10 +85,10 @@ public class Application{
     Renderer renderer = getRenderer(file.getName());
     filePanel.remove(fileView);
     try{
-      FileLoader loader = new FileLoader(file, progressBar);
+      if(file.length() > Integer.MAX_VALUE) throw new TooLargeFileException();
+      byte[] byteArray = new byte[(int)file.length()];
+      FileLoader loader = new FileLoader(file, progressBar, byteArray);
       loader.execute();
-      byte[] byteArray;
-      byteArray = loader.doInBackground();
       fileView = renderer.render(byteArray);
     }
     catch (TooLargeFileException e){
@@ -95,11 +96,16 @@ public class Application{
       fileView = new ErrorComponent("File size limit is exceeded, " + file.getName() +
           " is over 2 gb");
     }
+    catch (FileNotFoundException e){
+      e.printStackTrace();
+      fileView = new ErrorComponent("File " + file.getName() + " not found");
+    }
     catch (IOException e) {
       e.printStackTrace();
       fileView = new ErrorComponent("Error loading file " + file.getName());
     }
     filePanel.add(fileView, BorderLayout.CENTER);
+//    filePanel.s
     gui.updateUI();
   }
 

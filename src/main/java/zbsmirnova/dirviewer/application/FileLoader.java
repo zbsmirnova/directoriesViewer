@@ -2,6 +2,7 @@ package zbsmirnova.dirviewer.application;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.JProgressBar;
@@ -14,11 +15,10 @@ public class FileLoader extends SwingWorker<byte[], Integer> {
   private JProgressBar progressBar;
 
 
-  FileLoader(File file, JProgressBar progressBar) {
+  FileLoader(File file, JProgressBar progressBar, byte[] byteArray) {
     this.file = file;
-    if(file.length() > Integer.MAX_VALUE) throw new TooLargeFileException();
-    this.byteArray = new byte[(int)file.length()];
     this.progressBar = progressBar;
+    this.byteArray = byteArray;
   }
 
   @Override
@@ -26,8 +26,13 @@ public class FileLoader extends SwingWorker<byte[], Integer> {
     progressBar.setVisible(true);
     progressBar.setIndeterminate(true);
     try(InputStream is = new FileInputStream(file)) {
+      //if(true) throw new FileNotFoundException();
       int n = is.read(byteArray);
     }
+//    catch(FileNotFoundException e){
+//      e.printStackTrace();
+//      return null;
+//    }
     return byteArray;
   }
 
