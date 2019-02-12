@@ -8,13 +8,13 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
 import zbsmirnova.dirviewer.application.util.TooLargeFileException;
 
-public class AsynchronousLoader extends SwingWorker<byte[], Integer> {
+public class FileLoader extends SwingWorker<byte[], Integer> {
   private final File file;
   private final byte[] byteArray;
   private JProgressBar progressBar;
 
 
-  public AsynchronousLoader(File file, JProgressBar progressBar) {
+  public FileLoader(File file, JProgressBar progressBar) {
     this.file = file;
     if(file.length() > Integer.MAX_VALUE) throw new TooLargeFileException();
     this.byteArray = new byte[(int)file.length()];

@@ -82,12 +82,11 @@ public class Application{
   void previewFile(File file) {
     Renderer renderer = getRenderer(file.getName());
     filePanel.remove(fileView);
-    AsynchronousLoader worker;
     try{
-      worker = new AsynchronousLoader(file, progressBar);
-      worker.execute();
+      FileLoader loader = new FileLoader(file, progressBar);
+      loader.execute();
       byte[] byteArray;
-      byteArray = worker.doInBackground();
+      byteArray = loader.doInBackground();
       fileView = renderer.render(byteArray);
     }
     catch (TooLargeFileException e){
