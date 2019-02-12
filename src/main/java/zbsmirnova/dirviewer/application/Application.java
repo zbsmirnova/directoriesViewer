@@ -17,11 +17,13 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
 import zbsmirnova.dirviewer.application.util.ErrorComponent;
+import zbsmirnova.dirviewer.application.util.TooLargeFileException;
 
 /**
  * Application allows to walk through system directories and files (lazy loading).
  * Application supports file preview for text (files with extension .txt, .iml, .java, .xml,
  * .TXT, .log) and images (files with extension .jpg and .png).
+ * File size should not be larger then 2 gb.
  * Image and text loading executes out of Event Dispatch Thread
  */
 
@@ -80,13 +82,20 @@ public class Application{
   void previewFile(File file) {
     Renderer renderer = getRenderer(file.getName());
     filePanel.remove(fileView);
-    AsynchronousLoader worker = new AsynchronousLoader(file, progressBar);
-    worker.execute();
-    byte[] byteArray;
-    try {
+    AsynchronousLoader worker;
+    try{
+      worker = new AsynchronousLoader(file, progressBar);
+      worker.execute();
+      byte[] byteArray;
       byteArray = worker.doInBackground();
       fileView = renderer.render(byteArray);
-    } catch (IOException e) {
+    }
+    catch (TooLargeFileException e){
+      e.printStackTrace();
+      fileView = new ErrorComponent("File size limit is exceeded, " + file.getName() +
+          " is over 2 gb");
+    }
+    catch (IOException e) {
       e.printStackTrace();
       fileView = new ErrorComponent("Error loading file " + file.getName());
     }
