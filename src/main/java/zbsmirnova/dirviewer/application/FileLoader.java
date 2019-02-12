@@ -14,7 +14,7 @@ public class FileLoader extends SwingWorker<byte[], Integer> {
   private JProgressBar progressBar;
 
 
-  public FileLoader(File file, JProgressBar progressBar) {
+  FileLoader(File file, JProgressBar progressBar) {
     this.file = file;
     if(file.length() > Integer.MAX_VALUE) throw new TooLargeFileException();
     this.byteArray = new byte[(int)file.length()];

@@ -40,7 +40,6 @@ class TreeLoader {
     };
 
     File[] roots = fileSystemView.getRoots();
-//    Arrays.sort(roots, Comparator.comparing(File::getName));
     for (File fileSystemRoot : roots) {
       DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
       root.add(node);

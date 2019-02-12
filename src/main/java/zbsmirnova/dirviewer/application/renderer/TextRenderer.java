@@ -21,6 +21,4 @@ public class TextRenderer implements Renderer {
     list.setEnabled(true);
     return new JScrollPane(list);
   }
-
-
 }

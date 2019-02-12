@@ -8,7 +8,6 @@ import zbsmirnova.dirviewer.application.renderer.ImageRenderer;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
 import zbsmirnova.dirviewer.application.renderer.TextRenderer;
 import zbsmirnova.dirviewer.application.renderer.UnknownFileRenderer;
-import zbsmirnova.dirviewer.application.util.FileType;
 
 public class Util {
 
@@ -16,7 +15,7 @@ public class Util {
 
   static {
     textFileExtensions = new HashSet<>();
-    String[] extensions = {"txt", "iml", "java", "xml", "TXT", "log"};
+    String[] extensions = {"txt", "iml", "java", "xml", "log"};
     textFileExtensions.addAll(Arrays.asList(extensions));
   }
 

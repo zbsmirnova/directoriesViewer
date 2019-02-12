@@ -1,6 +1,5 @@
 package zbsmirnova.dirviewer.application;
 
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
