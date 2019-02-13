@@ -120,6 +120,7 @@ public class Application{
     protected byte[] doInBackground() throws Exception {
       InputStream is = new FileInputStream(file);
       int n = is.read(byteArray);
+      is.close();
       return byteArray;
     }
 
