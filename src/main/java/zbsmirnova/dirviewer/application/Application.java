@@ -45,11 +45,12 @@ public class Application{
   private  JPanel gui;
   private JProgressBar progressBar;
   private JScrollPane treeScroll;
+  private TreeLoader treeLoader;
 
   private JPanel getGui() {
     if (gui == null) {
 
-      TreeLoader treeLoader = new TreeLoader(this);
+      treeLoader = new TreeLoader(this);
 
       gui = new JPanel(new BorderLayout(3, 3));
       gui.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -114,7 +115,7 @@ public class Application{
               filePanel.remove(fileView);
               fileView = renderer.render(get());
               filePanel.add(fileView, BorderLayout.CENTER);
-              treeScroll.requestFocusInWindow();
+              treeLoader.getTree().requestFocusInWindow();
               gui.updateUI();
             } catch (ExecutionException e) {
               if (e.getCause() instanceof FileNotFoundException) {
