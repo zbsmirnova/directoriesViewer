@@ -44,6 +44,7 @@ public class Application{
   private JPanel filePanel;
   private  JPanel gui;
   private JProgressBar progressBar;
+  private JScrollPane treeScroll;
 
   private JPanel getGui() {
     if (gui == null) {
@@ -53,7 +54,7 @@ public class Application{
       gui = new JPanel(new BorderLayout(3, 3));
       gui.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-      JScrollPane treeScroll = new JScrollPane(treeLoader.getTree());
+      treeScroll = new JScrollPane(treeLoader.getTree());
       Dimension treePreferredSize = treeScroll.getPreferredSize();
       Dimension treePreferredWide = new Dimension(
           TREE_WIDTH,
@@ -77,7 +78,7 @@ public class Application{
           FILE_VIEW_WIDTH,
           APPLICATION_HEIGHT);
       filePanel.setMinimumSize(fileMinWide);
-
+      //filePanel.requestFocusInWindow();
       gui.add(treeScroll, BorderLayout.WEST);
       gui.add(filePanel, BorderLayout.CENTER);
     }
@@ -113,6 +114,7 @@ public class Application{
               filePanel.remove(fileView);
               fileView = renderer.render(get());
               filePanel.add(fileView, BorderLayout.CENTER);
+              treeScroll.requestFocusInWindow();
               gui.updateUI();
             } catch (ExecutionException e) {
               if (e.getCause() instanceof FileNotFoundException) {
