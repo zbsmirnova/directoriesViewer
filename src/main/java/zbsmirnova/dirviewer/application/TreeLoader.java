@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
+import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -18,9 +19,15 @@ class TreeLoader {
   private final Application application;
   private FileSystemView fileSystemView;
   private JTree tree;
+  private File selectedFile;
+
 
   TreeLoader(Application application){
     this.application = application;
+  }
+
+  public File getSelectedFile() {
+    return selectedFile;
   }
 
   JTree getTree() {
@@ -32,11 +39,11 @@ class TreeLoader {
     TreeSelectionListener treeSelectionListener = tse -> {
       DefaultMutableTreeNode node =
           (DefaultMutableTreeNode) tse.getPath().getLastPathComponent();
-      File file = (File) node.getUserObject();
-      if (file.isDirectory())
+      selectedFile = (File) node.getUserObject();
+      if (selectedFile.isDirectory())
         showChildren(node);
       else
-        application.previewFile(file);
+        application.previewFile(selectedFile);
     };
 
     File[] roots = fileSystemView.getRoots();
