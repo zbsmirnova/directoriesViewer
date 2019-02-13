@@ -40,9 +40,9 @@ class TreeLoader {
       DefaultMutableTreeNode node =
           (DefaultMutableTreeNode) tse.getPath().getLastPathComponent();
       selectedFile = (File) node.getUserObject();
-      if (selectedFile.isDirectory())
+      if (selectedFile.isDirectory() && selectedFile != null)
         showChildren(node);
-      else
+      else if(selectedFile != null)
         application.previewFile(selectedFile);
     };
 
