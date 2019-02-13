@@ -5,8 +5,11 @@ import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
@@ -84,29 +88,58 @@ public class Application{
   void previewFile(File file) {
     Renderer renderer = getRenderer(file.getName());
     filePanel.remove(fileView);
-    try{
-      if(file.length() > Integer.MAX_VALUE) throw new TooLargeFileException();
-      byte[] byteArray = new byte[(int)file.length()];
-      FileLoader loader = new FileLoader(file, progressBar, byteArray);
+    try {
+      if (file.length() > Integer.MAX_VALUE)
+        throw new TooLargeFileException();
+      byte[] byteArray = new byte[(int) file.length()];
+
+      SwingWorker<byte[], Void> loader = new SwingWorker<byte[], Void>() {
+        @Override
+        protected byte[] doInBackground() throws Exception {
+          progressBar.setVisible(true);
+          progressBar.setIndeterminate(true);
+          InputStream is = new FileInputStream(file);
+          int n = is.read(byteArray);
+          return byteArray;
+        }
+
+        @Override
+        protected void done() {
+          progressBar.setIndeterminate(false);
+          progressBar.setVisible(false);
+//          if (file)
+          if (!isCancelled()) {
+            try {
+              filePanel.remove(fileView);
+              fileView = renderer.render(get());
+              filePanel.add(fileView, BorderLayout.CENTER);
+              gui.updateUI();
+            } catch (ExecutionException e) {
+              if (e.getCause() instanceof FileNotFoundException) {
+                fileView = new ErrorComponent("file not found " + file.getName());
+              } else {
+                fileView = new ErrorComponent("Unexpected problem loading " + file.getName());
+              }
+              e.printStackTrace();
+            } catch (InterruptedException e) {
+
+              e.printStackTrace();
+            } catch (IOException e) {
+              fileView = new ErrorComponent("Error rendering file " + file.getName());
+              e.printStackTrace();
+            } finally {
+              filePanel.add(fileView, BorderLayout.CENTER);
+              gui.updateUI();
+            }
+          }
+        }
+      };
       loader.execute();
-      fileView = renderer.render(byteArray);
-    }
-    catch (TooLargeFileException e){
+    } catch (TooLargeFileException e) {
       e.printStackTrace();
       fileView = new ErrorComponent("File size limit is exceeded, " + file.getName() +
           " is over 2 gb");
     }
-    catch (FileNotFoundException e){
-      e.printStackTrace();
-      fileView = new ErrorComponent("File " + file.getName() + " not found");
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-      fileView = new ErrorComponent("Error loading file " + file.getName());
-    }
-    filePanel.add(fileView, BorderLayout.CENTER);
-//    filePanel.s
-    gui.updateUI();
   }
 
   public static void main(String[] args) {

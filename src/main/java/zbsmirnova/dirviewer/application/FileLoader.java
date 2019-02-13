@@ -2,16 +2,16 @@ package zbsmirnova.dirviewer.application;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.swing.JProgressBar;
 import javax.swing.SwingWorker;
-import zbsmirnova.dirviewer.application.util.TooLargeFileException;
 
-public class FileLoader extends SwingWorker<byte[], Integer> {
+public class FileLoader extends SwingWorker<byte[], Void> {
   private final File file;
-  private final byte[] byteArray;
+  private byte[] byteArray;
   private JProgressBar progressBar;
 
 
@@ -28,18 +28,31 @@ public class FileLoader extends SwingWorker<byte[], Integer> {
     try(InputStream is = new FileInputStream(file)) {
       //if(true) throw new FileNotFoundException();
       int n = is.read(byteArray);
+//      for(byte b : byteArray) {
+//        publish(b);
+//      }
     }
 //    catch(FileNotFoundException e){
 //      e.printStackTrace();
 //      return null;
 //    }
     return byteArray;
+    //return null;
   }
+
+//  @Override
+//  protected void process(List<Byte> chunks) {
+//   // byteArray = chunks.get(0);
+//    for (int i = 0; i < chunks.size(); i++) {
+//      byteArray[i] = chunks.get(i);
+//    }
+//
 
   @Override
   protected void done() {
     progressBar.setIndeterminate(false);
     progressBar.setVisible(false);
+
   }
 
 }
