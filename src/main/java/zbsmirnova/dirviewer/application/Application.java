@@ -4,11 +4,11 @@ import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -45,6 +45,12 @@ public class Application{
   private  JPanel gui;
   private JProgressBar progressBar;
   private TreeLoader treeLoader;
+
+  private Loader loader;
+
+  Loader getLoader() {
+    return loader;
+  }
 
   private JPanel getGui() {
     if (gui == null) {
@@ -88,7 +94,7 @@ public class Application{
   void previewFile(File file) {
     Renderer renderer = getRenderer(file.getName());
     try {
-      Loader loader = new Loader(file, renderer);
+      loader = new Loader(file, renderer);
       progressBar.setVisible(true);
       progressBar.setIndeterminate(true);
       loader.execute();
@@ -102,7 +108,7 @@ public class Application{
     }
   }
 
-  private class Loader extends SwingWorker<byte[], Void> {
+  public class Loader extends SwingWorker<byte[], Void> {
     private final byte[] byteArray;
     private final File file;
     private final Renderer renderer;
@@ -118,9 +124,16 @@ public class Application{
 
     @Override
     protected byte[] doInBackground() throws Exception {
-      InputStream is = new FileInputStream(file);
-      int n = is.read(byteArray);
-      is.close();
+      BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+      int result = bis.read();
+      int i = 0;
+
+      while(result != -1 && !isCancelled()) {
+          byteArray[i] = ((byte) result);
+          i++;
+          result = bis.read();
+      }
+      bis.close();
       return byteArray;
     }
 
