@@ -2,6 +2,7 @@ package zbsmirnova.dirviewer.application;
 
 import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 
+import com.sun.istack.internal.NotNull;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.BufferedInputStream;
@@ -42,7 +43,7 @@ public class Application{
 
   private JComponent fileView;
   private JPanel filePanel;
-  private  JPanel gui;
+  private JPanel gui;
   private JProgressBar progressBar;
   private TreeLoader treeLoader;
 
@@ -91,9 +92,11 @@ public class Application{
     return gui;
   }
 
-  void previewFile(File file) {
+
+  void previewFile(@NotNull File file) {
     Renderer renderer = getRenderer(file.getName());
     try {
+      assert renderer != null;
       loader = new Loader(file, renderer);
       progressBar.setVisible(true);
       progressBar.setIndeterminate(true);

@@ -44,7 +44,7 @@ class TreeLoader {
       else if(selectedFile != null){
         if(application.getLoader() != null && !application.getLoader().isDone()){
           application.getLoader().cancel(true);}
-      application.previewFile(selectedFile);
+        application.previewFile(selectedFile);
         }
     };
 
@@ -52,13 +52,13 @@ class TreeLoader {
     for (File fileSystemRoot : roots) {
       DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
       root.add(node);
-      File[] files = fileSystemView.getFiles(fileSystemRoot, true);
-      Arrays.sort(files, Comparator.comparing(File::getName));
-      for (File file : files) {
-        if (file.isDirectory() | file.isFile()) {
-          node.add(new DefaultMutableTreeNode(file));
-        }
-      }
+//      File[] files = fileSystemView.getFiles(fileSystemRoot, true);
+//      Arrays.sort(files, Comparator.comparing(File::getName));
+//      for (File file : files) {
+//        if (file.isDirectory() | file.isFile()) {
+//          node.add(new DefaultMutableTreeNode(file));
+//        }
+//      }
     }
 
     tree = new JTree(treeModel);

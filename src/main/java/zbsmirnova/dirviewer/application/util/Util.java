@@ -1,5 +1,6 @@
 package zbsmirnova.dirviewer.application.util;
 
+import com.sun.istack.internal.NotNull;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,24 +13,33 @@ import zbsmirnova.dirviewer.application.renderer.UnknownFileRenderer;
 public class Util {
 
   private static Set<String> textFileExtensions;
+  private static Set<String> imageFileExtensions;
 
   static {
     textFileExtensions = new HashSet<>();
-    String[] extensions = {"txt", "iml", "java", "xml", "log"};
-    textFileExtensions.addAll(Arrays.asList(extensions));
+    String[] textExtensions = {"txt", "iml", "java", "xml", "log"};
+    textFileExtensions.addAll(Arrays.asList(textExtensions));
+
+    imageFileExtensions = new HashSet<>();
+    String[] imageExtensions = {"png", "jpg"};
+    imageFileExtensions.addAll(Arrays.asList(imageExtensions));
+
   }
 
-  public static FileType getFileType(String fileName){
-    String fileExtension3 = fileName.substring(fileName.length() - 3);
-    String fileExtension4 = fileName.substring(fileName.length() - 4);
-    if(textFileExtensions.contains(fileExtension3) || textFileExtensions.contains(fileExtension4))
+  public static FileType getFileType(@NotNull String fileName){
+    String fileExtension = "";
+    String[] splited = fileName.split("\\.");
+    if(splited.length > 0)
+      fileExtension = splited[splited.length - 1];
+
+    if(textFileExtensions.contains(fileExtension))
       return FileType.TEXT;
-    else if(fileExtension3.equals("jpg") || fileExtension3.equals("png"))
+    else if(imageFileExtensions.contains(fileExtension))
       return FileType.PICTURE;
     else return FileType.UNKNOWN;
   }
 
-  public static Renderer getRenderer(String fileName){
+  public static Renderer getRenderer(@NotNull String fileName){
     Renderer renderer;
     switch(getFileType(fileName)){
       case TEXT:
@@ -44,13 +54,15 @@ public class Util {
     return renderer;
   }
 
-  private static void addLine(byte[] byteArray, DefaultListModel<String> model, int start, int end) {
+  private static void addLine(@NotNull byte[] byteArray, @NotNull DefaultListModel<String> model,
+      int start, int end) {
+    if(end <= start) return;
     byte[] nextStringBytes = new byte[end - start];
     System.arraycopy(byteArray, start, nextStringBytes, 0, end - start);
     model.addElement(new String(nextStringBytes));
   }
 
-  public static DefaultListModel<String> getListModel(byte[] byteArray){
+  public static DefaultListModel<String> getListModel(@NotNull byte[] byteArray){
     DefaultListModel<String> model = new DefaultListModel<>();
     String lineSeparator = System.lineSeparator();
     char[] separatorChars = lineSeparator.toCharArray();

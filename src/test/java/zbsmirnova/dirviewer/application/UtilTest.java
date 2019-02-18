@@ -61,6 +61,10 @@ public class UtilTest {
     Assert.assertEquals(getFileType(JPG_FILE),FileType.PICTURE);
     Assert.assertEquals(getFileType(PNG_FILE),FileType.PICTURE);
     Assert.assertEquals(getFileType(PDF_FILE),FileType.UNKNOWN);
+
+    Assert.assertEquals(getFileType(""),FileType.UNKNOWN);
+    Assert.assertEquals(getFileType("."),FileType.UNKNOWN);
+    Assert.assertEquals(getFileType(".vvh.nvj.txt"),FileType.TEXT);
   }
 
   @Test
