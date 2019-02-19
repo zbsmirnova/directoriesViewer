@@ -2,7 +2,7 @@ package zbsmirnova.dirviewer.application;
 
 import static zbsmirnova.dirviewer.application.util.Util.getRenderer;
 
-import com.sun.istack.internal.NotNull;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.BufferedInputStream;
@@ -21,6 +21,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.validation.constraints.NotNull;
+
 import zbsmirnova.dirviewer.application.renderer.Renderer;
 import zbsmirnova.dirviewer.application.util.ErrorComponent;
 import zbsmirnova.dirviewer.application.util.TooLargeFileException;
