@@ -39,7 +39,7 @@ class TreeLoader {
       DefaultMutableTreeNode node =
           (DefaultMutableTreeNode) tse.getPath().getLastPathComponent();
       selectedFile = (File) node.getUserObject();
-      if (selectedFile.isDirectory() && selectedFile != null)
+      if (selectedFile != null && selectedFile.isDirectory())
         showChildren(node);
       else if(selectedFile != null){
         if(application.getLoader() != null && !application.getLoader().isDone()){
@@ -52,13 +52,6 @@ class TreeLoader {
     for (File fileSystemRoot : roots) {
       DefaultMutableTreeNode node = new DefaultMutableTreeNode(fileSystemRoot);
       root.add(node);
-//      File[] files = fileSystemView.getFiles(fileSystemRoot, true);
-//      Arrays.sort(files, Comparator.comparing(File::getName));
-//      for (File file : files) {
-//        if (file.isDirectory() | file.isFile()) {
-//          node.add(new DefaultMutableTreeNode(file));
-//        }
-//      }
     }
 
     tree = new JTree(treeModel);
