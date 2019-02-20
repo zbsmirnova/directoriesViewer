@@ -1,10 +1,11 @@
 package zbsmirnova.dirviewer.application.util;
 
-import com.sun.istack.internal.NotNull;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.DefaultListModel;
+import javax.validation.constraints.NotNull;
+
 import zbsmirnova.dirviewer.application.renderer.ImageRenderer;
 import zbsmirnova.dirviewer.application.renderer.Renderer;
 import zbsmirnova.dirviewer.application.renderer.TextRenderer;
