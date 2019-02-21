@@ -63,8 +63,9 @@ public class UtilTest {
     Assert.assertEquals(getFileType(PDF_FILE),FileType.UNKNOWN);
 
     Assert.assertEquals(getFileType(""),FileType.UNKNOWN);
+    Assert.assertEquals(getFileType("dxfd"),FileType.UNKNOWN);
     Assert.assertEquals(getFileType("."),FileType.UNKNOWN);
-    Assert.assertEquals(getFileType(".vvh.nvj.txt"),FileType.TEXT);
+    Assert.assertEquals(getFileType(".vvh.nvj...txt"),FileType.TEXT);
   }
 
   @Test

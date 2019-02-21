@@ -152,7 +152,6 @@ public class Application{
           fileView = renderer.render(get());
           filePanel.add(fileView, BorderLayout.CENTER);
           treeLoader.getTree().requestFocusInWindow();
-          gui.updateUI();
         } catch (ExecutionException e) {
           if (e.getCause() instanceof FileNotFoundException) {
             fileView = new ErrorComponent("File not found " + file.getName());
